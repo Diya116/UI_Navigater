@@ -1,0 +1,151 @@
+/* ============================================================
+   UI Navigator — Orb Styles
+   Injected into every page via content_scripts in manifest
+   ============================================================ */
+
+#uin-root {
+  position:        fixed;
+  bottom:          24px;
+  right:           24px;
+  z-index:         2147483647;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     flex-end;
+  gap:             8px;
+  pointer-events:  none;
+  font-family:     system-ui, sans-serif;
+}
+
+#uin-orb {
+  pointer-events:  all;
+  width:           52px;
+  height:          52px;
+  border-radius:   50%;
+  background:      #1a1a2e;
+  border:          2px solid #0066ff;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  cursor:          pointer;
+  position:        relative;
+  color:           #ffffff;
+  transition:      background 0.3s, border-color 0.3s, transform 0.15s;
+  box-shadow:      0 4px 20px rgba(0, 102, 255, 0.3);
+  outline:         none;
+  gap:             2px;
+  user-select:     none;
+}
+
+#uin-orb:hover {
+  transform: scale(1.08);
+}
+
+#uin-orb:focus-visible {
+  box-shadow: 0 0 0 3px #00e5ff, 0 4px 20px rgba(0, 102, 255, 0.3);
+}
+
+/* ── Countdown timer ── */
+#uin-countdown {
+  font-size:   10px;
+  font-weight: 700;
+  color:       #ffffff;
+  line-height: 1;
+  min-height:  12px;
+}
+
+/* ── States ── */
+
+/* Listening — red pulsing */
+#uin-orb.uin-listening {
+  background:  #2a0a0a;
+  border-color: #ff3366;
+  box-shadow:  0 4px 24px rgba(255, 51, 102, 0.5);
+  animation:   uin-pulse 1.2s ease-in-out infinite;
+}
+
+/* Processing — amber spinning ring */
+#uin-orb.uin-processing {
+  background:   #1a1200;
+  border-color: #ffaa00;
+  box-shadow:   0 4px 24px rgba(255, 170, 0, 0.3);
+}
+
+#uin-orb.uin-processing #uin-ring {
+  animation: uin-spin 0.9s linear infinite;
+}
+
+/* Speaking — cyan breathing */
+#uin-orb.uin-speaking {
+  background:  #001a20;
+  border-color: #00e5ff;
+  box-shadow:  0 4px 24px rgba(0, 229, 255, 0.4);
+  animation:   uin-breathe 1.8s ease-in-out infinite;
+}
+
+/* Error — red-orange static */
+#uin-orb.uin-error {
+  background:   #200a00;
+  border-color: #ff6b35;
+  box-shadow:   0 4px 24px rgba(255, 107, 53, 0.4);
+}
+
+/* ── Ring element ── */
+#uin-ring {
+  position:      absolute;
+  inset:         -3px;
+  border-radius: 50%;
+  border:        2px solid transparent;
+  border-top-color: currentColor;
+  opacity:       0.6;
+}
+
+/* ── Toast message ── */
+#uin-toast {
+  pointer-events: none;
+  background:     rgba(0, 0, 0, 0.82);
+  color:          #ffffff;
+  font-size:      12px;
+  padding:        5px 10px;
+  border-radius:  6px;
+  max-width:      220px;
+  text-align:     center;
+  line-height:    1.4;
+  opacity:        0;
+  transition:     opacity 0.2s;
+  white-space:    nowrap;
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+}
+
+#uin-toast:not(:empty) {
+  opacity: 1;
+}
+
+/* ── Keyframe animations ── */
+@keyframes uin-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1;    }
+  50%       { transform: scale(1.06); opacity: 0.85; }
+}
+
+@keyframes uin-spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes uin-breathe {
+  0%, 100% { box-shadow: 0 4px 24px rgba(0, 229, 255, 0.3); }
+  50%       { box-shadow: 0 4px 32px rgba(0, 229, 255, 0.7); }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  #uin-orb.uin-listening,
+  #uin-orb.uin-speaking {
+    animation: none;
+  }
+  #uin-orb.uin-processing #uin-ring {
+    animation: none;
+    border-top-color: #ffaa00;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "UI Navigator – AI Screen Reader",
+  "version": "1.0.0",
+  "description": "Navigate any website by voice in your language",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tts",
+    "offscreen"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background/sw.js",
+    "type": "module"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": [
+      "content/image-compress.js",
+      "content/dom-snapshot.js",
+      "content/recorder.js",
+      "content/executor.js",
+      "content/orb.js",
+      "content/stream-reader.js",
+      "content/main.js"
+    ],
+    "css": ["assets/orb.css"],
+    "run_at": "document_idle"
+  }],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}
