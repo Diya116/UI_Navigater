@@ -1,0 +1,36 @@
+# ── Secrets — NEVER commit these ─────────────────────────────
+secrets/
+sa-key.json
+*.json.key
+
+# ── Environment files — NEVER commit these ────────────────────
+.env
+.env.local
+.env.production
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+ENV/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.so
+
+# ── IDE ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

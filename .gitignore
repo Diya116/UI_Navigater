@@ -1,0 +1,36 @@
+# ── Secrets — NEVER commit these ─────────────────────────────
+**/secrets/
+**/sa-key.json
+**/*.json.key
+
+# ── Environment files ─────────────────────────────────────────
+**/.env
+**/.env.local
+**/.env.production
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyc
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# ── Terraform ─────────────────────────────────────────────────
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.backup
+**/*.tfvars
+**/.terraform.lock.hcl
+
+# ── IDE ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
