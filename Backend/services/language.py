@@ -19,8 +19,14 @@ VOICE_MAP = {
 }
 
 STT_ALTERNATIVES = [
-    "hi-IN","gu-IN","ta-IN","te-IN","bn-IN",
-    "mr-IN","kn-IN","ml-IN","en-US","ar-XA",
+    "hi-IN",
+    "gu-IN", 
+    "ta-IN",
+    "te-IN",
+    "mr-IN",
+    "kn-IN",
+    "ml-IN",
+    "en-US",
 ]
 
 FALLBACKS = {

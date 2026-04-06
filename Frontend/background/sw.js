@@ -1,4 +1,4 @@
-const API_BASE = 'https://ui-navigator-api-HASH-uc.a.run.app';
+const API_BASE = 'http://localhost:8000';
 
 // Keep service worker alive — MV3 kills it after 30s inactivity
 const keepAliveInterval = setInterval(

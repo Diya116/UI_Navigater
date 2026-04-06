@@ -106,9 +106,10 @@
 
         response: async (data) => {
           orb.setState('speaking');
-          if (data.audio) {
-            await playAudio(data.audio, speechRate);
-          } else if (data.text) {
+          if (data.audio && await playAudio(data.audio, speechRate)) {
+            return;
+          }
+          if (data.text) {
             await speakFallback(data.text, data.lang || userLang);
           }
         },
@@ -120,8 +121,10 @@
 
         error: async (data) => {
           orb.setState('error');
-          if (data.audio) await playAudio(data.audio, speechRate);
-          else await speakFallback(data.text, userLang);
+          if (data.audio && await playAudio(data.audio, speechRate)) {
+            return;
+          }
+          await speakFallback(data.text, userLang);
         },
 
         done: () => {
@@ -144,13 +147,44 @@
   }
 
   async function playAudio(base64, rate = 1.0) {
-    return new Promise((resolve) => {
-      const audio = new Audio(`data:audio/mp3;base64,${base64}`);
-      audio.playbackRate = rate;
-      audio.onended = resolve;
-      audio.onerror = resolve;
-      audio.play().catch(resolve);
-    });
+    try {
+      const binary = atob(base64);
+      const bytes  = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+
+      const blob = new Blob([bytes], { type: 'audio/mpeg' });
+      const url  = URL.createObjectURL(blob);
+
+      return await new Promise((resolve) => {
+        const audio = new Audio();
+        let settled = false;
+
+        const finish = (ok) => {
+          if (settled) return;
+          settled = true;
+          audio.pause();
+          audio.src = '';
+          URL.revokeObjectURL(url);
+          resolve(ok);
+        };
+
+        audio.preload = 'auto';
+        audio.playbackRate = rate;
+        audio.onended = () => finish(true);
+        audio.onerror = () => finish(false);
+        audio.src = url;
+
+        const playPromise = audio.play();
+        if (playPromise?.catch) {
+          playPromise.catch(() => finish(false));
+        }
+      });
+    } catch (err) {
+      console.warn('[UIN] Audio playback failed', err);
+      return false;
+    }
   }
 
   async function speakFallback(text, lang) {
