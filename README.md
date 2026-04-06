@@ -12,6 +12,10 @@ UI Navigator is a Chrome extension plus a FastAPI backend that helps blind and l
 - Streaming responses over SSE for low-latency action execution.
 - Session memory and language preference tracking in Firestore.
 
+## Demo
+
+Video: https://www.youtube.com/watch?v=VHHHjYL7Gzw
+
 ## Architecture
 
 **Core idea:** combine a screenshot + DOM snapshot with the user's voice query, let Gemini plan the action, then execute it directly in the browser while speaking back the result.
